@@ -8,16 +8,18 @@ const pool = createPool({
     connectionLimit: 10
 })
 
-function callQuery(){
-    pool.query("select * from books", (err, result, fields) =>{
-        if (err) {
-            console.error(err);
-            return;
-        }
-
-        return console.log(result);
+async function searchQuery(keyword) {
+    return new Promise((resolve, reject)=> {
+        pool.query("select * from books WHERE MATCH(name, author, description) AGAINST (?)",[keyword], (err, result, fields) =>{
+            if (err) {
+                console.error(err);
+                reject(err);
+            }
+            console.log(result)
+            resolve(result)
+        })
     })
 }
 
-module.exports = { callQuery };
+module.exports = { searchQuery };
 

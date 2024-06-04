@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { callQuery } = require("./database.js");
+const { searchQuery } = require("./database.js");
 const app = express();
 const PORT = 8080;
 
@@ -11,16 +11,14 @@ app.listen(
     () => console.log(`http://localhost:${PORT}`)
 );
 
-app.get('/search/:keyword', (req, res) => {
+app.get('/search/:keyword', async (req, res) => {
 
     const { keyword } = req.params;
 
+    const result = await searchQuery(keyword);
 
-    res.status(200).send({
-        name: 'name good',
-        author: 'author good',
-        description: 'description good'
-    })
+    console.log("result = " + result);
+
+    res.status(200).send(result)
 })
 
-callQuery();
