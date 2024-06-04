@@ -1,4 +1,6 @@
 const express = require("express");
+
+const { callQuery } = require("./database.js");
 const app = express();
 const PORT = 8080;
 
@@ -20,3 +22,5 @@ app.get('/search/:keyword', (req, res) => {
         description: 'description good'
     })
 })
+
+callQuery();
